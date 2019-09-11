@@ -1,0 +1,52 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+int length(struct node *head)
+{
+    int i=0;
+    while(head!=NULL)
+    {
+        i++; head=head->next;
+    }
+    return i;
+}
+void nth_node(struct node *head)
+{
+    int n,i=1,len;
+    len=length(head);
+    cout<<"Enter nth node from end\n";
+    cin>>n;
+    if(n<=0 || n>len)
+    {
+        cout<<"Invalid\n"; return;
+    }
+    while(i<len-n+1)
+    {
+        head=head->next; i++;
+    }
+    cout<<"The nth node from end is "<<head->data;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head,2);
+    push(&head,3);
+    push(&head,4);
+    push(&head,5);
+    push(&head,6);
+    push(&head,7);
+    push(&head,8);
+    nth_node(head);
+    return 0;
+}
