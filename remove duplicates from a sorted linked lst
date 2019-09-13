@@ -1,0 +1,61 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void duplicate(struct node **head)
+{
+    struct node *newhead=*head;
+    while(newhead->data==newhead->next->data)
+    {
+        *head=newhead->next;
+         newhead->next=NULL;
+         free(newhead);
+         newhead=*head;
+    }
+    while(newhead && newhead->next)
+    {
+        if(newhead->data==newhead->next->data)
+        {
+            struct node *temp=newhead->next;
+            newhead->next=temp->next;
+            temp->next=NULL;
+            free(temp);
+        }
+        else
+            newhead=newhead->next;
+    }
+}
+void display(struct node *head)
+{
+    while(head!=NULL)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head,1);
+    push(&head,1);
+    push(&head,1);
+    push(&head,1);
+    push(&head,5);
+    push(&head,6);
+    push(&head,6);
+    display(head);
+    duplicate(&head);
+    display(head);
+    return 0;
+}
