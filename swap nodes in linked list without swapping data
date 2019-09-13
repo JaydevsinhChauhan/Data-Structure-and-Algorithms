@@ -1,0 +1,65 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+     struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head!=NULL)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void swap(struct node **head,int x,int y)
+{
+    struct node *X=*head,*prevX=NULL;
+    while(X->data!=x && X!=NULL)
+    {
+        prevX=X;
+        X=X->next;
+    }
+    struct node *Y=*head,*prevY=NULL;
+    while(Y->data!=y && Y!=NULL)
+    {
+        prevY=Y;
+        Y=Y->next;
+    }
+    if(Y==NULL || X==NULL)
+        return;
+    if(prevX==NULL)
+        *head=Y;
+    else
+        prevX->next=Y;
+    if(prevY==NULL)
+        *head=X;
+    else
+        prevY->next=X;
+    struct node *temp=Y->next;
+    Y->next=X->next;
+    X->next=temp;
+}
+int main(void)
+{
+     struct node *head=NULL;
+     push(&head,14);
+     push(&head,20);
+     push(&head,13);
+     push(&head,12);
+     push(&head,15);
+     push(&head,10);
+     display(head);
+     swap(&head,10,14);
+     display(head);
+     return 0;
+}
