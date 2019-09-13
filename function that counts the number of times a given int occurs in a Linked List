@@ -1,0 +1,40 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void frequency(struct node *head,int data)
+{
+    int freq=0;
+    while(head!=NULL)
+    {
+        if(head->data==data)
+            freq++;
+        head=head->next;
+    }
+    cout<<"The frequency of "<<data<<" is "<<freq<<endl;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head,9);
+    push(&head,9);
+    push(&head,9);
+    push(&head,9);
+    push(&head,9);
+    push(&head,9);
+    push(&head,9);
+    push(&head,9);
+    push(&head,9);
+    frequency(head,9);
+    return 0;
+}
