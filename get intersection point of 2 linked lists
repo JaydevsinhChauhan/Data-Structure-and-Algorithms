@@ -1,0 +1,80 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+int length(struct node *head)
+{
+    int cnt=0;
+    while(head)
+    {
+        cnt++;
+        head=head->next;
+    }
+    return cnt;
+}
+void intersect(struct node *head1,struct node *head2)
+{
+    int l1=length(head1);
+    int l2=length(head2);
+    int l=abs(l1-l2);
+    struct node *p,*q;
+    if(l1>l2)
+    {
+        p=head1;
+        q=head2;
+    }
+    else
+    {
+        p=head2;
+        q=head1;
+    }
+    int cnt=0;
+    while(cnt<l)
+    {
+        p=p->next;
+        cnt++;
+    }
+    while(p!=q)
+    {
+        p=p->next;
+        q=q->next;
+    }
+    cout<<p->data;
+}
+int main(void)
+{
+    struct node *head1=NULL,*head2=NULL;
+    push(&head1,6);
+    push(&head1,5);
+    push(&head1,4);
+    push(&head1,3);
+    push(&head1,2);
+    push(&head1,1);
+    push(&head2,10);
+    push(&head2,11);
+    push(&head2,12);
+    head2->next->next->next=head1->next->next->next->next;
+    display(head2);
+    intersect(head1,head2);
+    return 0;
+}
