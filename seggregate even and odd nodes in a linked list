@@ -1,0 +1,81 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void evenodd(struct node **head)
+{
+    struct node *even=NULL,*even1=NULL,*odd=NULL,*odd1=NULL;
+    struct node *p=*head;
+    if(p->data%2!=0)
+        odd1=p;
+    else
+        even1=p;
+    p=p->next;
+    even=even1; odd=odd1;
+    while(p)
+    {
+         if(p->data%2!=0)
+         {
+             if(odd1==NULL)
+             {
+                 odd1=p;
+                 odd=p;
+             }
+             else
+             {
+                odd->next=p;
+                odd=odd->next;
+             }
+         }
+         else
+         {
+             if(even1==NULL)
+             {
+                 even1=p;
+                 even=p;
+             }
+             else
+             {
+                even->next=p;
+                even=even->next;
+             }
+         }
+         p=p->next;
+    }
+    even->next=odd1;
+    *head=even1;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head, 11);
+    push(&head, 10);
+    push(&head, 9);
+    push(&head, 6);
+    push(&head, 4);
+    push(&head, 1);
+    push(&head, 0);
+    display(head);
+    evenodd(&head);
+    display(head);
+    return 0;
+}
