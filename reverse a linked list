@@ -1,0 +1,53 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void reverse(struct node **head)
+{
+    struct node *prev,*curr,*next;
+    curr=*head;
+    next=curr->next;
+    prev=NULL;
+    while(curr)
+    {
+        curr->next=prev;
+        prev=curr;
+        curr=next;
+        if(curr!=NULL)
+            next=curr->next;
+    }
+    *head=prev;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head,6);
+    push(&head,5);
+    push(&head,4);
+    push(&head,3);
+    push(&head,2);
+    push(&head,1);
+    display(head);
+    reverse(&head);
+    display(head);
+    return 0;
+}
