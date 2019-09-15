@@ -1,0 +1,86 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void reverse(struct node **head)
+{
+    struct node *prev,*curr,*next1;
+    curr=*head; prev=NULL; next1=curr->next;
+    while(curr)
+    {
+        curr->next=prev;
+        prev=curr;
+        curr=next1;
+        if(curr!=NULL)
+            next1=curr->next;
+    }
+    *head=prev;
+}
+void merge(struct node *head1,struct node *head2, struct node **head)
+{
+    struct node *p;
+    if(head1->data<head2->data)
+    {
+        p=head1;
+        head1=head1->next;
+    }
+    else
+    {
+        p=head2;
+        head2=head2->next;
+    }
+    *head=p;
+    while(head1 and head2)
+    {
+        if(head2->data<head1->data)
+        {
+            p->next=head2;
+            p=p->next;
+            head2=p->next;
+        }
+        else
+        {
+            p->next=head1;
+            p=p->next;
+            head1=head1->next;
+        }
+    }
+    if(head1)
+        p->next=head1;
+    else
+        p->next=head2;
+}
+int main(void)
+{
+    struct node *head1=NULL,*head2=NULL,*head=NULL;
+    push(&head1,15);
+    push(&head1,8);
+    push(&head1,1);
+    push(&head2,12);
+    push(&head2,10);
+    push(&head2,5);
+    push(&head2,2);
+    merge(head1,head2,&head);
+    reverse(&head);
+    display(head);
+    return 0;
+}
