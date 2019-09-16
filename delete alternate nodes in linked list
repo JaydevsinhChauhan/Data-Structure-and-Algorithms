@@ -1,0 +1,51 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void evaporate(struct node **head)
+{
+    struct node *root=*head;
+    while(root && root->next)
+    {
+        struct node *temp=root->next;
+        root->next=temp->next;
+        temp->next=NULL;
+        free(temp);
+        root=root->next;
+    }
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head,9);
+    push(&head,8);
+    push(&head,7);
+    push(&head,6);
+    push(&head,5);
+    push(&head,4);
+    push(&head,3);
+    push(&head,2);
+    push(&head,1);
+    evaporate(&head);
+    display(head);
+    return 0;
+}
