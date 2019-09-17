@@ -1,0 +1,80 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void rearrange(struct node **head)
+{
+    struct node *even,*temp,*prev_temp,*i,*j,*k,*l,*ptr;
+    temp=(*head)->next;
+    prev_temp=*head;
+    while(temp!=NULL)
+    {
+        node *x=temp->next;
+        if(temp->data%2!=0)
+        {
+            prev_temp->next=x;
+            temp->next=*head;
+            *head=temp;
+        }
+        else
+            prev_temp=temp;
+        temp=x;
+    }
+    temp=(*head)->next;
+    prev_temp=*head;
+    while(temp!=NULL && temp->data%2!=0)
+    {
+        prev_temp=temp;
+        temp=temp->next;
+    }
+    even=temp;
+    prev_temp->next=NULL;
+    i=*head;
+    j=even;
+    while(j!=NULL && i!=NULL)
+    {
+        k=i->next;
+        l=j->next;
+        i->next=j;
+        j->next=k;
+        ptr=j;
+        i=k; j=l;
+    }
+    if(i!=NULL)
+        ptr->next=j;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head,8);
+    push(&head,7);
+    push(&head,6);
+    push(&head,3);
+    push(&head,5);
+    push(&head,1);
+    push(&head,2);
+    push(&head,10);
+    display(head);
+    rearrange(&head);
+    display(head);
+    return 0;
+}
