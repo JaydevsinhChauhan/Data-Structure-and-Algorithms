@@ -1,0 +1,59 @@
+/*
+Given a Singly Linked List, write a function to delete a given node. Your function must follow following constraints:
+1) It must accept a pointer to the start node as first parameter and node to be deleted as the second parameter i.e.,
+   a pointer to head node is not global.
+2) It should not return a pointer to the head node.
+3) It should not accept pointer to pointer to head node.
+*/
+
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void vanish(struct node *head, struct node *root)
+{
+    while(root->data!=head->data)
+        head=head->next;
+    struct node *temp=head->next;
+    head->data=temp->data;
+    head->next=temp->next;
+    temp->next=NULL;
+    free(temp);
+}
+int main(void)
+{
+    struct node *head = NULL;
+
+    push(&head,3);
+    push(&head,2);
+    push(&head,6);
+    push(&head,5);
+    push(&head,11);
+    push(&head,10);
+    push(&head,15);
+    push(&head,12);
+
+    display(head);
+    vanish(head,head);
+    display(head);
+    return 0;
+}
