@@ -1,0 +1,58 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void rotate(struct node **head,int k)
+{
+    int i=0;
+    while(i<k)
+    {
+        struct node *head1=*head;
+        int ele;
+        ele=head1->data;
+        *head=head1->next;
+        head1->next=NULL;
+        free(head1);
+        head1=*head;
+        while(head1->next!=NULL)
+            head1=head1->next;
+        struct node *temp1=new node();
+        temp1->data=ele;
+        head1->next=temp1;
+        temp1->next=NULL;
+        i++;
+    }
+}
+int main(void)
+{
+    struct node *head=NULL;
+    for (int i = 60; i > 0; i -= 10)
+        push(&head, i);
+
+    cout << "Given linked list \n";
+    display(head);
+    rotate(&head, 4);
+
+    cout << "\nRotated Linked list \n";
+    display(head);
+    return 0;
+}
