@@ -1,0 +1,53 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void middle(struct node **head)
+{
+    struct node *p=*head,*q=*head,*l=NULL;
+    while(q &&q->next)
+    {
+        l=p;
+        p=p->next;
+        q=q->next->next;
+    }
+    struct node *temp=p->next;
+    int ele=p->data;
+    l->next=temp;
+    p->next=NULL;
+    free(p);
+    push(&(*head),ele);
+}
+int main(void)
+{
+    struct node *head=NULL;
+    for (int i = 60; i > 0; i -= 10)
+        push(&head, i);
+
+    cout << "Given linked list \n";
+    display(head);
+    middle(&head);
+
+    cout << "\nNew Linked list \n";
+    display(head);
+    return 0;
+}
