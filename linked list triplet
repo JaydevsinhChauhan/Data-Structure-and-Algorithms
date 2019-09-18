@@ -1,0 +1,67 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+void isSumSorted(struct node *A,struct node *b,struct node *c,int sum)
+{
+    node *a=A;
+    while(a!=NULL)
+    {
+        while(b!=NULL && c!=NULL)
+        {
+            if(a->data+b->data+c->data==sum)
+            {
+                cout<<"Triplet found "<<a->data<<" "<<b->data<<" "<<c->data;
+                return;
+            }
+            if(a->data+b->data+c->data<sum)
+                c=c->next;
+            else
+                b=b->next;
+        }
+        a=a->next;
+    }
+}
+int main(void)
+{
+    struct node *headA = NULL,*headB=NULL,*headC=NULL;
+
+    push (&headA, 20);
+    push (&headA, 4);
+    push (&headA, 15);
+    push (&headA, 10);
+
+    push (&headB, 10);
+    push (&headB, 9);
+    push (&headB, 4);
+    push (&headB, 2);
+
+    push (&headC, 1);
+    push (&headC, 2);
+    push (&headC, 4);
+    push (&headC, 8);
+
+    int givenNumber = 25;
+
+    isSumSorted (headA, headB, headC, givenNumber);
+    return 0;
+}
