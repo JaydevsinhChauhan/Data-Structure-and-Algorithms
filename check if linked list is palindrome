@@ -1,0 +1,88 @@
+#include<iostream>
+#include<cstring>
+using namespace std;
+struct node
+{
+    char data;
+    struct node *next;
+};
+void push(struct node **head,char data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<"";
+        head=head->next;
+    }
+}
+void reverse(struct node **head)
+{
+    struct node *prev=NULL, *curr=*head,*next=NULL;
+    while(curr)
+    {
+        next=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=next;
+    }
+    *head=prev;
+}
+bool compare(struct node *head1, struct node *head2)
+{
+    while(head1 && head2)
+    {
+        if(head1->data!=head2->data)
+            return false;
+        else
+        {
+            head1=head1->next;
+            head2=head2->next;
+        }
+    }
+    return true;
+}
+bool palindrome(struct node *head)
+{
+    struct node *slow=head, *fast=head, *prev_of_slow=head, *second_half, *mid=NULL;
+    bool result=true;
+    while(fast and fast->next)
+    {
+        fast=fast->next->next;
+        prev_of_slow=slow;
+        slow=slow->next;
+    }
+    if(fast!=NULL)
+    {
+        mid=slow;
+        slow=slow->next;
+    }
+    second_half=slow;
+    prev_of_slow->next=NULL;
+    reverse(&second_half);
+    result=compare(head,second_half);
+    reverse(&second_half);
+    if(mid!=NULL)
+    {
+        prev_of_slow=mid;
+        mid->next=second_half;
+    }
+    else
+        prev_of_slow->next=second_half;
+    return result;
+}
+int main(void)
+{
+    struct node *head=NULL;
+    char s[]="NITIN";
+    for(int i=0;i<strlen(s);i++)
+        push(&head,s[i]);
+    display(head);
+    palindrome ( head )  ? cout << "\nIs palindrome " : cout << "Not a palindrome" ;
+    return 0;
+}
