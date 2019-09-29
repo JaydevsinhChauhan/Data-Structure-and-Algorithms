@@ -1,0 +1,95 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+    int data;
+    struct node *next;
+};
+void push(struct node **head,int data)
+{
+    struct node *temp=new node();
+    temp->data=data;
+    temp->next=*head;
+    *head=temp;
+}
+void display(struct node *head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+struct node* gettail(struct node *head)
+{
+    while(head->next!=NULL)
+        head=head->next;
+    return head;
+}
+struct node* partition(struct node *head,struct node *end, struct node **newhead, struct node **newend)
+{
+    struct node *pivot=end;
+    struct node *prev=NULL, *curr=head, *tail=pivot;
+    while(curr!=pivot)
+    {
+        if(curr->data<pivot->data)
+        {
+            if((*newhead)==NULL)
+                (*newhead)=curr;
+            prev=curr;
+            curr=curr->next;
+        }
+        else
+        {
+            if(prev)
+                prev->next=curr->next;
+            struct node *temp=curr->next;
+            curr->next=NULL;
+            tail->next=curr;
+            tail=curr;
+            curr=temp;
+        }
+    }
+    if((*newhead)==NULL)
+        (*newhead)=pivot;
+    *newend=tail;
+    return pivot;
+}
+struct node* quicksortrecur(struct node *head,struct node *end)
+{
+    if(!head || head==end) return head;
+    struct node *newhead=NULL, *newend=NULL;
+    struct node *pivot=partition(head,end,&newhead,&newend);
+    if(newhead!=pivot)
+    {
+        struct node *temp=newhead;
+        while(temp->next!=pivot)
+            temp=temp->next;
+        temp->next=NULL;
+        newhead=quicksortrecur(newhead,temp);
+        temp=gettail(newhead);
+        temp->next=pivot;
+    }
+    pivot->next=quicksortrecur(pivot->next,newend);
+    return newhead;
+}
+void quicksort(struct node **head)
+{
+    *head=quicksortrecur(*head,gettail(*head));
+}
+int main(void)
+{
+    struct node *head=NULL;
+    push(&head,6);
+    push(&head,2);
+    push(&head,3);
+    push(&head,8);
+    push(&head,12);
+    push(&head,1);
+    push(&head,5);
+    display(head);
+    quicksort(&head);
+    display(head);
+    return 0;
+}
